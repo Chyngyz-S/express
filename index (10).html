@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eceef2">
+<title>ЖҮК ЭКСПРЕСС.KG</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@500;700;800&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<style>
+:root{--bg:#eceef2;--card:#fff;--ink:#10151d;--mut:#5f6b7a;--line:#dde1e8;--ac:#f5c400;--on:#1a1400;--hot:#c2410c;--hot2:#ffedd5;--ok:#047857;--ok2:#d1fae5;--red:#dc2626;color-scheme:light}
+[data-theme=dark]{--bg:#0d1015;--card:#171b22;--ink:#eef1f5;--mut:#93a0b2;--line:#262c36;--hot:#fdba74;--hot2:#3a2410;--ok:#6ee7b7;--ok2:#0f3a2c;--red:#f87171;color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:500 15px/1.4 Onest,system-ui,sans-serif}
+body{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+button,input,select,textarea{font:inherit;color:inherit}button{border:0;background:none;cursor:pointer;padding:0}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:calc(12px + env(safe-area-inset-top,0px)) 16px 10px;display:flex;align-items:center;gap:10px}
+.bar h1{font-size:19px;margin:0;flex:1;font-weight:800}
+.logo{width:38px;height:38px;border-radius:11px;background:var(--ac);color:var(--on);display:grid;place-items:center;font-weight:800}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px;margin:0 16px 12px}
+.seg button{padding:10px;border-radius:10px;font-weight:700;color:var(--mut)}.seg .on{background:var(--ink);color:var(--bg)}
+.in{width:100%;padding:13px 14px;border-radius:13px;border:1.5px solid var(--line);background:var(--card);outline:none;margin:0 0 10px}.in:focus{border-color:var(--ink)}
+textarea.in{min-height:70px}.pad{padding:0 16px}
+.chips{display:flex;gap:8px;overflow:auto;padding:0 16px 12px}.chips button{flex:none;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-weight:700;font-size:13px}.chips .on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.list{display:grid;gap:12px;padding:0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;cursor:pointer}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.rt{display:flex;align-items:center;gap:12px;font-size:19px;font-weight:800;letter-spacing:-.02em;margin:10px 0 12px}
+.ln{flex:1;position:relative;border-top:2px dashed var(--line);min-width:30px;font-style:normal}.ln:before,.ln:after{content:"";position:absolute;top:-6px;width:10px;height:10px;border-radius:50%;border:2px solid var(--ink)}.ln:before{left:-2px;background:var(--card)}.ln:after{right:-2px;background:var(--ac)}
+.ln em{position:absolute;left:50%;top:-11px;transform:translateX(-50%);background:var(--card);padding:0 8px;font:700 12px/20px Onest,sans-serif;font-style:normal;color:var(--mut);white-space:nowrap;display:flex;align-items:center;gap:4px}.sheet .ln em{background:var(--bg)}
+.pills{display:flex;gap:6px;flex-wrap:wrap}.pills span{background:var(--bg);border-radius:8px;padding:4px 10px;font-size:13px;font-weight:700}
+.foot{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--line);margin-top:12px;padding-top:11px}.foot small{color:var(--mut);font-size:12px}.foot div small{display:block}
+.price{font-weight:800;font-size:19px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.ic{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.heart.on .ic{fill:currentColor}
+.hero{margin:0 16px 12px;padding:16px;border-radius:18px;background:#10151d;color:#fff;display:grid;grid-template-columns:1fr auto auto;gap:16px;align-items:center}.hero p{margin:0;font-weight:700;font-size:14px;line-height:1.3;color:#c9d1dc}.hero div b{display:block;font-size:24px;color:var(--ac);line-height:1}.hero div span{font-size:11px;color:#93a0b2}
+.sort{border:0;background:none;font-weight:700;color:var(--ink);outline:none;max-width:60%}.sort option{color:#000}
+.sheet:before{content:"";display:block;width:40px;height:4px;border-radius:2px;background:var(--line);margin:-8px auto 14px}
+.tag{font-size:11px;font-weight:800;padding:3px 8px;border-radius:7px;background:var(--hot2);color:var(--hot)}.tag.g{background:var(--ok2);color:var(--ok)}
+.heart{font-size:21px;color:var(--mut);line-height:1}.heart.on{color:var(--red)}
+.btn{width:100%;padding:14px;border-radius:14px;background:var(--ac);color:var(--on);font-weight:800;text-align:center;display:block;text-decoration:none}.btn.o{background:var(--card);border:1.5px solid var(--line);color:var(--ink)}.btn.d{color:var(--red)}.btn:disabled{opacity:.5}
+.av{width:56px;height:56px;border-radius:50%;background:var(--ac);color:var(--on);display:grid;place-items:center;font-weight:800;font-size:22px;overflow:hidden;flex:none}.av img{width:100%;height:100%;object-fit:cover}
+.nav{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));height:64px;background:var(--card);border:1px solid var(--line);border-radius:22px;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.18);z-index:6}
+.nav button{display:grid;justify-items:center;font-size:11px;font-weight:700;color:var(--mut)}.nav b{display:grid;place-items:center;padding:4px 14px;border-radius:12px}.nav .on{color:var(--ink)}.nav .on b{background:var(--ac);color:var(--on)}
+.nav .plus{width:54px;height:54px;border-radius:50%;background:var(--ac);color:var(--on);font-size:28px;font-weight:800;margin:-26px auto 0;border:4px solid var(--bg);display:grid;place-items:center}
+.dim{position:fixed;inset:0;background:rgba(5,10,20,.55);display:none;z-index:20}.dim.on{display:block}
+.sheet{position:fixed;left:0;right:0;bottom:0;max-height:92%;overflow:auto;background:var(--bg);border-radius:24px 24px 0 0;padding:18px 16px calc(24px + env(safe-area-inset-bottom,0px));z-index:21;transform:translateY(105%);transition:transform .25s}.sheet.on{transform:none}
+.sheet h2{margin:0 0 6px;font-size:20px}
+#map{height:200px;border-radius:14px;margin-bottom:10px}
+.kv,.grp{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:0 14px;margin-bottom:12px}.kv>div,.grp>div{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.kv>div:last-child,.grp>div:last-child{border:0}.kv span,.grp span{color:var(--mut)}
+.grp select{border:0;background:none;font-weight:700;text-align:right;outline:none}.grp select option{color:#000}
+.btns{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-top:10px}
+.sw{width:46px;height:28px;border-radius:99px;background:var(--line);position:relative}.sw:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s}.sw.on{background:var(--ac)}.sw.on:after{left:21px}
+.empty{text-align:center;color:var(--mut);padding:36px 20px}
+.auth{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:24px;max-width:480px;margin:auto}
+.role{display:flex;align-items:center;gap:14px;padding:16px;margin-bottom:10px;border-radius:16px;background:var(--card);border:1.5px solid var(--line);width:100%;text-align:left;font-weight:800;font-size:17px}
+.toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;z-index:30;font-weight:700;max-width:90%}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.sheet,.sw:after{transition:none}}
+</style></head><body><div id="app"></div><div class="dim" id="dim"></div><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+<script>
+'use strict';
+const $=s=>document.querySelector(s),g=i=>$('#'+i).value.trim(),
+esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),
+ph=s=>String(s||'').replace(/[^\d+]/g,''),okPh=s=>/^\+?\d{9,15}$/.test(ph(s));
+/* Контакты поддержки: замените на свои */
+const CFG={tg:'https://t.me/YOUR_SUPPORT',wa:'+996000000000',tel:'+996000000000',ver:'1.1.0'};
+const LS={g(k,d){try{const v=localStorage.getItem('jx.'+k);return v==null?d:JSON.parse(v)}catch{return d}},
+s(k,v){try{localStorage.setItem('jx.'+k,JSON.stringify(v));return true}catch{toast(t('full'));return false}}};
+let ST=LS.g('st',{lang:'ru',cur:'KGS',theme:'auto',notif:true});
+const D={ru:{home:'Главная',mine:'Мои',fav:'Избранное',me:'Профиль',loads:'Грузы',cars:'Транспорт',q:'Откуда, куда, груз…',found:'Найдено',none:'Ничего не найдено',addL:'Разместить груз',addC:'Добавить транспорт',from:'Откуда',to:'Куда',goods:'Груз',wt:'Вес, т',body:'Кузов',price:'Цена',phone:'Телефон',note:'Дополнительно',date:'Дата загрузки',pub:'Опубликовать',nego:'Договорная',hot:'Срочно',call:'Позвонить',login:'Вход по номеру телефона',code:'Получить код',enter:'Войти',demo:'Тестовый режим: код 1234',who:'Кто вы?',driver:'Водитель',owner:'Грузовладелец',disp:'Диспетчер',name:'Имя',role:'Роль',lang:'Язык',cur:'Валюта',theme:'Тема',light:'Светлая',dark:'Тёмная',auto:'Авто',notif:'Уведомления',help:'Поддержка',about:'О приложении',out:'Выйти',del:'Удалить аккаунт',sure:'Точно? Данные на этом устройстве будут стёрты.',ok:'Готово',fill:'Заполните обязательные поля и телефон',full:'Память устройства заполнена',calc:'Считаю маршрут…',nocity:'Город не найден на карте',route:'Расстояние по дорогам',ml:'Мои грузы',mc:'Мой транспорт',rm:'Удалить',ver:'Проверен',now:'только что',m:'мин назад',h:'ч назад',d:'дн назад',new:'Новый',all:'Все',city:'Город',tag:'Грузы и транспорт по Кыргызстану и СНГ',stL:'грузов',stC:'машин',sNew:'Сначала новые',sCheap:'Сначала дешёвые',sShort:'Сначала короткие',share:'Поделиться',copied:'Ссылка скопирована'},
+ky:{home:'Башкы бет',mine:'Менин',fav:'Тандалган',me:'Профиль',loads:'Жүктөр',cars:'Транспорт',q:'Кайдан, кайда, жүк…',found:'Табылды',none:'Эчтеке табылган жок',addL:'Жүк жарыялоо',addC:'Транспорт кошуу',from:'Кайдан',to:'Кайда',goods:'Жүк',wt:'Салмагы, т',body:'Кузов',price:'Баасы',phone:'Телефон',note:'Кошумча маалымат',date:'Жүктөө күнү',pub:'Жарыялоо',nego:'Келишим боюнча',hot:'Шашылыш',call:'Чалуу',login:'Телефон номери менен кирүү',code:'Код алуу',enter:'Кирүү',demo:'Сыноо режими: код 1234',who:'Сиз кимсиз?',driver:'Айдоочу',owner:'Жүк ээси',disp:'Диспетчер',name:'Аты-жөнү',role:'Ролу',lang:'Тил',cur:'Валюта',theme:'Тема',light:'Жарык',dark:'Караңгы',auto:'Авто',notif:'Билдирмелер',help:'Колдоо',about:'Тиркеме жөнүндө',out:'Чыгуу',del:'Аккаунтту өчүрүү',sure:'Ишенимдүүсүзбү? Бул түзмөктөгү маалымат өчүрүлөт.',ok:'Даяр',fill:'Милдеттүү талааларды жана телефонду толтуруңуз',full:'Түзмөктүн эстутуму толду',calc:'Маршрут эсептелүүдө…',nocity:'Шаар картадан табылган жок',route:'Жол менен аралык',ml:'Менин жүктөрүм',mc:'Менин транспортум',rm:'Өчүрүү',ver:'Текшерилген',now:'азыр эле',m:'мүн. мурун',h:'саат мурун',d:'күн мурун',new:'Жаңы',all:'Баары',city:'Шаар',tag:'Кыргызстан жана КМШ боюнча жүк жана транспорт',stL:'жүк',stC:'машина',sNew:'Жаңылары биринчи',sCheap:'Арзандары биринчи',sShort:'Кыска аралык биринчи',share:'Бөлүшүү',copied:'Шилтеме көчүрүлдү'}};
+function t(k){return(D[ST.lang]||D.ru)[k]??D.ru[k]??k}
+/* Курсы ориентировочные (за 1 сом). Для боевой версии подключите API курсов. */
+const CUR={KGS:['сом',1],RUB:['₽',.92],KZT:['₸',5.9],UZS:['сўм',145],USD:['$',.0114]};
+const money=k=>k?Math.round(k*CUR[ST.cur][1]).toLocaleString('ru')+' '+CUR[ST.cur][0]:t('nego'),
+ago=ts=>{const m=Math.max(0,(Date.now()-ts)/6e4|0);return m<1?t('now'):m<60?m+' '+t('m'):m<1440?(m/60|0)+' '+t('h'):(m/1440|0)+' '+t('d')};
+const CITY={бишкек:[42.8746,74.5698],ош:[40.5283,72.7985],'джалал-абад':[40.9333,72.9833],каракол:[42.4907,78.3936],нарын:[41.4287,75.9911],талас:[42.5228,72.2427],баткен:[40.0626,70.8194],алматы:[43.2389,76.8897],ташкент:[41.2995,69.2401],москва:[55.7558,37.6173],новосибирск:[55.0084,82.9357]};
+const DL=`<datalist id="ct">${Object.keys(CITY).map(k=>`<option value="${k[0].toUpperCase()+k.slice(1)}">`).join('')}</datalist>`;
+const hav=(p,q)=>{const r=x=>x*Math.PI/180;return Math.round(6371*1.3*Math.acos(Math.min(1,Math.sin(r(p[0]))*Math.sin(r(q[0]))+Math.cos(r(p[0]))*Math.cos(r(q[0]))*Math.cos(r(q[1]-p[1])))))};
+const P={home:'<path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',mine:'<rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>',fav:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/>',me:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',plus:'<path d="M12 5v14M5 12h14"/>'};
+const ic=(n,s=22)=>`<svg class="ic" width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true">${P[n]}</svg>`;
+const G={};
+async function geo(n){const k=n.trim().toLowerCase();if(!k)return null;if(G[k])return G[k];if(CITY[k])return G[k]=CITY[k];
+try{const d=await(await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&accept-language=ru&q='+encodeURIComponent(n))).json();if(d[0])return G[k]=[+d[0].lat,+d[0].lon]}catch{}return null}
+async function route(A,B){try{const x=(await(await fetch(`https://router.project-osrm.org/route/v1/driving/${A[1]},${A[0]};${B[1]},${B[0]}?overview=simplified&geometries=geojson`)).json()).routes[0];return{km:Math.round(x.distance/1000),g:x.geometry}}catch{return{km:hav(A,B),g:null}}}
+const now=Date.now(),mk=(i,a,b,tn,body,goods,price,min,hot)=>({id:'s'+i,a,b,t:tn,body,goods,price,ts:now-min*6e4,hot,phone:'+996700000001',by:'demo'});
+let LD=LS.g('LD',null)||[mk(1,'Бишкек','Ош',22,'Тент','Текстиль',0,27,1),mk(2,'Ош','Бишкек',28,'Реф','Продукты +6°C',0,300),mk(3,'Бишкек','Алматы',20,'Тент','Стройматериалы',95000,120),mk(4,'Алматы','Ташкент',22,'Тент','Сборный груз',140000,420,1),mk(5,'Ош','Москва',25,'Борт','ТНП',0,900)];
+const cr=(i,n,r,k,car,tn,body,city)=>({id:'c'+i,n,r,k,car,t:tn,body,city,ok:1,phone:'+996700000002',by:'demo',ts:now});
+let CR=LS.g('CR',null)||[cr(1,'Айбек',4.9,31,'Volvo FH',22,'Тент','Бишкек'),cr(2,'Нурлан',4.7,18,'Mercedes Actros',28,'Реф','Ош'),cr(3,'Руслан',4.5,9,'Sprinter',2,'Фургон','Алматы')];
+const tg=window.Telegram?.WebApp;try{tg?.ready();tg?.expand()}catch{}
+let U=LS.g('U',null),F=LS.g('F',[]);const tu=tg?.initDataUnsafe?.user; /* ВНИМАНИЕ: initDataUnsafe нужно проверять подписью на сервере */
+if(!U&&tu)U={id:'tg'+tu.id,name:[tu.first_name,tu.last_name].filter(Boolean).join(' '),tg:tu.username||'',phone:''};
+const S={sort:'new',view:'home',tab:'loads',q:'',body:'',mine:'loads',ph:'',step:U?(U.role?'app':'role'):'phone'};
+const BODIES=['Тент','Реф','Борт','Фургон'],mq=matchMedia('(prefers-color-scheme:dark)');
+function theme(){const d=ST.theme==='dark'||(ST.theme==='auto'&&mq.matches);document.documentElement.dataset.theme=d?'dark':'light';document.querySelector('meta[name=theme-color]').content=d?'#0d1015':'#eceef2'}
+mq.addEventListener('change',theme);
+const km=c=>c.km||((x,y)=>x&&y?hav(x,y):0)(CITY[c.a.toLowerCase()],CITY[c.b.toLowerCase()]),
+rt=(a,b,k)=>`<div class="rt"><span>${esc(a)}</span><i class="ln"><em>${k?'~'+k+' км':ic('mine',14)}</em></i><span>${esc(b)}</span></div>`,
+heart=id=>`<button class="heart ${F.includes(id)?'on':''}" data-a="fav" data-id="${id}" aria-label="★">${ic('fav')}</button>`,
+lcard=c=>{const k=km(c);return `<div class="card" role="button" tabindex="0" data-a="load" data-id="${c.id}"><div class="row"><span>${c.hot?`<span class="tag">${t('hot')}</span>`:''}</span>${heart(c.id)}</div>${rt(c.a,c.b,k)}<div class="pills"><span>${esc(c.t)} т</span><span>${esc(c.body)}</span><span>${esc(c.goods)}</span></div><div class="foot"><div><b class="price">${money(c.price)}</b>${c.price&&k?`<small>≈ ${money(Math.round(c.price/k))}/км</small>`:''}</div><small>${ago(c.ts)}</small></div></div>`},
+ccard=c=>`<div class="card" role="button" tabindex="0" data-a="car" data-id="${c.id}"><div class="row" style="justify-content:flex-start;gap:14px"><div class="av">${c.photo?`<img src="${esc(c.photo)}" alt="">`:esc((c.n||'?')[0])}</div><div style="flex:1"><b>${esc(c.n)}</b> ${c.ok?`<span class="tag g">✓ ${t('ver')}</span>`:''}<div style="font-weight:800">${c.k?'★ '+c.r+' ('+c.k+')':t('new')}</div><div class="pills" style="margin-top:6px"><span>${esc(c.car)}</span><span>${esc(c.t)} т</span><span>${esc(c.body)}</span><span>${esc(c.city)}</span></div></div>${heart(c.id)}</div></div>`,
+listH=a=>a.length?a.map(x=>x.a?lcard(x):ccard(x)).join(''):`<div class="empty">${t('none')}</div>`;
+function flt(){const L=S.tab==='loads',tk=S.q.toLowerCase().split(/[\s,;>→]+/).filter(Boolean);
+return(L?LD:CR).filter(c=>(!S.body||c.body===S.body)&&tk.every(w=>(L?c.a+' '+c.b+' '+c.goods+' '+c.body:c.n+' '+c.car+' '+c.city+' '+c.body).toLowerCase().includes(w))).sort((x,y)=>L&&S.sort==='cheap'?(x.price||1e12)-(y.price||1e12):L&&S.sort==='short'?(km(x)||1e9)-(km(y)||1e9):y.ts-x.ts)}
+const seg=(a,cur,items)=>`<div class="seg">${items.map(([v,l])=>`<button class="${cur===v?'on':''}" data-a="${a}" data-v="${v}">${l}</button>`).join('')}</div>`;
+function home(){const a=flt();return `<div class="bar"><div class="logo">${ic('mine')}</div><h1>ЖҮК ЭКСПРЕСС</h1></div><div class="hero"><p>${t('tag')}</p><div><b>${LD.length}</b><span>${t('stL')}</span></div><div><b>${CR.length}</b><span>${t('stC')}</span></div></div>${seg('tab',S.tab,[['loads',t('loads')],['cars',t('cars')]])}<div class="pad"><input class="in" id="q" type="search" placeholder="${t('q')}" value="${esc(S.q)}" autocomplete="off"></div><div class="chips">${['',...BODIES].map(b=>`<button class="${S.body===b?'on':''}" data-a="body" data-v="${b}">${b||t('all')}</button>`).join('')}</div><div class="pad row" style="margin-bottom:8px;color:var(--mut);font-weight:700"><span>${t('found')}: <span id="cnt">${a.length}</span></span>${S.tab==='loads'?`<select class="sort" id="so" aria-label="sort">${[['new','sNew'],['cheap','sCheap'],['short','sShort']].map(([k,l])=>`<option value="${k}" ${S.sort===k?'selected':''}>${t(l)}</option>`).join('')}</select>`:''}</div><div class="list" id="list">${listH(a)}</div>`}
+function mine(){const isL=S.mine==='loads',a=(isL?LD:CR).filter(x=>x.by===U.id);
+return `<div class="bar"><h1>${t('mine')}</h1></div>${seg('mt',S.mine,[['loads',t('ml')],['cars',t('mc')]])}<div class="list">${a.length?a.map(x=>`<div>${x.a?lcard(x):ccard(x)}<button class="btn o d" style="margin-top:6px" data-a="del" data-id="${x.id}">${t('rm')}</button></div>`).join(''):`<div class="empty">${t('none')}</div>`}<button class="btn" data-a="${isL?'addL':'addC'}">+ ${t(isL?'addL':'addC')}</button></div>`}
+const favs=()=>`<div class="bar"><h1>${t('fav')}</h1></div><div class="list">${listH([...LD,...CR].filter(x=>F.includes(x.id)))}</div>`;
+function me(){const o=(k,v,l)=>`<option value="${k}" ${v===k?'selected':''}>${l}</option>`;
+return `<div class="bar"><h1>${t('me')}</h1></div><div class="pad"><div class="grp"><div style="justify-content:flex-start;gap:14px"><label class="av" style="cursor:pointer;width:72px;height:72px">${U.photo?`<img src="${esc(U.photo)}" alt="">`:'📷'}<input id="pic" type="file" accept="image/*" hidden></label><div style="flex:1;min-width:0"><input class="in" id="nm" placeholder="${t('name')}" value="${esc(U.name||'')}" style="margin:0 0 4px"><span>${esc(U.phone||(U.tg?'@'+U.tg:''))}</span></div></div></div>
+<div class="grp"><div><span>${t('role')}</span><select id="rl">${['driver','owner','disp'].map(r=>o(r,U.role,t(r))).join('')}</select></div><div><span>${t('lang')}</span><select id="lg">${o('ru',ST.lang,'Русский')+o('ky',ST.lang,'Кыргызча')}</select></div><div><span>${t('cur')}</span><select id="cu">${Object.keys(CUR).map(k=>o(k,ST.cur,k+' '+CUR[k][0])).join('')}</select></div><div><span>${t('theme')}</span><select id="th">${['auto','light','dark'].map(k=>o(k,ST.theme,t(k))).join('')}</select></div><div><span>${t('notif')}</span><button class="sw ${ST.notif?'on':''}" data-a="notif" role="switch" aria-checked="${ST.notif}" aria-label="${t('notif')}"></button></div></div>
+<div class="grp"><div><span>${t('ml')}</span><b>${LD.filter(x=>x.by===U.id).length}</b></div><div><span>${t('mc')}</span><b>${CR.filter(x=>x.by===U.id).length}</b></div><div><span>${t('fav')}</span><b>${F.length}</b></div></div>
+<div class="grp"><div data-a="help" style="cursor:pointer"><b>${t('help')}</b><span>›</span></div><div><span>${t('about')}</span><span>v${CFG.ver}</span></div></div>
+<button class="btn o" data-a="out">${t('out')}</button><button class="btn o d" style="margin-top:8px" data-a="delacc">${t('del')}</button></div>`}
+const nav=()=>{const b=v=>`<button class="${S.view===v?'on':''}" data-a="v" data-v="${v}"><b>${ic(v)}</b>${t(v)}</button>`;return `<nav class="nav">${b('home')}${b('mine')}<button class="plus" data-a="plus" aria-label="+">${ic('plus',28)}</button>${b('fav')}${b('me')}</nav>`};
+const langSel=`<select class="in" id="lg" style="width:auto;margin:0">${[['ru','RU'],['ky','KY']].map(([k,l])=>`<option value="${k}" ${ST.lang===k?'selected':''}>${l}</option>`).join('')}</select>`;
+function auth(){if(S.step==='phone')return `<div class="auth"><div class="row" style="margin-bottom:18px"><div class="logo">${ic('mine')}</div>${langSel}</div><h1>ЖҮК ЭКСПРЕСС.KG</h1><p style="color:var(--mut)">${t('login')}</p><input class="in" id="ph" type="tel" placeholder="+996 ___ ___ ___" value="${esc(S.ph)}"><button class="btn" data-a="sendcode">${t('code')}</button></div>`;
+if(S.step==='code')return `<div class="auth"><h2>${t('code')}</h2><p style="color:var(--mut)">${t('demo')}</p><input class="in" id="cd" inputmode="numeric" maxlength="4" placeholder="1234"><button class="btn" data-a="chk">${t('enter')}</button></div>`;
+return `<div class="auth"><h2>${t('who')}</h2>${[['driver','🚛'],['owner','📦'],['disp','🧭']].map(([r,i])=>`<button class="role" data-a="role" data-v="${r}"><span style="font-size:28px">${i}</span>${t(r)}</button>`).join('')}</div>`}
+function render(){theme();document.documentElement.lang=ST.lang;$('#app').innerHTML=S.step!=='app'?auth():({home,mine,fav:favs,me})[S.view]()+nav()}
+const openS=h=>{$('#sheet').innerHTML=h;$('#sheet').classList.add('on');$('#dim').classList.add('on')},closeS=()=>{$('#sheet').classList.remove('on');$('#dim').classList.remove('on')};$('#dim').onclick=closeS;
+function toast(m){document.querySelector('.toast')?.remove();const d=document.createElement('div');d.className='toast';d.textContent=m;document.body.append(d);setTimeout(()=>d.remove(),2400)}
+const contact=c=>{const p=ph(c.phone);return `<div class="btns">${p?`<a class="btn" href="tel:${p}">${t('call')}</a><a class="btn o" href="https://wa.me/${p.replace('+','')}" target="_blank" rel="noopener">WhatsApp</a>`:''}${c.tg?`<a class="btn o" href="https://t.me/${encodeURIComponent(c.tg)}" target="_blank" rel="noopener">Telegram</a>`:''}</div>`},
+row=(k,v)=>`<div><span>${k}</span><b>${v}</b></div>`;
+let tok=0;
+async function detail(id){const c=LD.find(x=>x.id===id);if(!c)return;const my=++tok;
+openS(`${rt(c.a,c.b,km(c))}<div id="map"></div><p id="dist" style="font-weight:800;margin:0 0 10px">${t('calc')}</p><div class="kv">${row(t('goods'),esc(c.goods))+row(t('wt'),esc(c.t))+row(t('body'),esc(c.body))+row(t('price'),money(c.price))+(c.d?row(t('date'),esc(c.d)):'')}${c.note?`<div style="display:block"><span>${t('note')}</span><p style="margin:6px 0">${esc(c.note)}</p></div>`:''}</div>${contact(c)}<button class="btn o" style="margin-top:8px" data-a="share" data-id="${c.id}">${t('share')}</button>`);
+const A=await geo(c.a),B=await geo(c.b);if(my!==tok)return;if(!A||!B){$('#dist').textContent=t('nocity');return}
+const r=await route(A,B);if(my!==tok)return;$('#dist').textContent=t('route')+': '+r.km+' км';if(!window.L)return;
+setTimeout(()=>{if(my!==tok||!$('#map'))return;const m=L.map('map').fitBounds([A,B],{padding:[30,30]});L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(m);L.marker(A).addTo(m);L.marker(B).addTo(m);if(r.g){const p=L.geoJSON(r.g,{style:{color:'#d4a800',weight:5}}).addTo(m);m.fitBounds(p.getBounds(),{padding:[20,20]})}},60)}
+function carD(id){const c=CR.find(x=>x.id===id);if(!c)return;tok++;openS(`<h2>${esc(c.n)}</h2><div class="kv">${row(t('cars'),esc(c.car))+row(t('wt'),esc(c.t))+row(t('body'),esc(c.body))+row(t('city'),esc(c.city))}</div>${contact(c)}`)}
+const opts=a=>a.map(b=>`<option>${b}</option>`).join(''),cp=()=>`<input class="in" id="cp" type="tel" placeholder="${t('phone')}" value="${esc(U.phone||'')}">`;
+function addLoad(){openS(`<h2>${t('addL')}</h2>${DL}<input class="in" id="a" list="ct" placeholder="${t('from')}"><input class="in" id="b" list="ct" placeholder="${t('to')}"><div id="kmv" style="font-weight:800;margin-bottom:10px"></div><input class="in" id="g" placeholder="${t('goods')}"><input class="in" id="w" type="number" min="0" step="any" placeholder="${t('wt')}"><select class="in" id="bd">${opts(BODIES)}</select><input class="in" id="p" type="number" min="0" placeholder="${t('price')}, ${CUR[ST.cur][0]}"><input class="in" id="dt" type="date">${cp()}<textarea class="in" id="ex" placeholder="${t('note')}"></textarea><button class="btn" data-a="pubL">${t('pub')}</button>`)}
+async function pubL(btn){const a=g('a'),b=g('b'),p=g('cp'),w=+g('w');if(!a||!b||!okPh(p)||!(w>0))return toast(t('fill'));
+btn.disabled=true;let k=0;try{const A=await geo(a),B=await geo(b);if(A&&B)k=(await route(A,B)).km}catch{}
+LD.unshift({id:'u'+Date.now(),a,b,km:k,t:w,body:g('bd'),goods:g('g')||'—',price:Math.round((+g('p')||0)/CUR[ST.cur][1]),d:g('dt'),phone:p,tg:(U.tg||'').replace(/\W/g,''),note:g('ex'),ts:Date.now(),hot:0,by:U.id});
+if(!LS.s('LD',LD)){LD.shift();btn.disabled=false;return}U.phone=U.phone||p;LS.s('U',U);closeS();Object.assign(S,{view:'home',tab:'loads',q:'',body:''});render();toast(t('ok'))}
+function addCar(){openS(`<h2>${t('addC')}</h2>${DL}<input class="in" id="m" placeholder="Volvo FH"><input class="in" id="w" type="number" min="0" step="any" placeholder="${t('wt')}"><select class="in" id="bd">${opts(BODIES)}</select><input class="in" id="ct2" list="ct" placeholder="${t('city')}">${cp()}<button class="btn" data-a="pubC">${t('pub')}</button>`)}
+function pubC(){const p=g('cp'),w=+g('w');if(!g('m')||!g('ct2')||!okPh(p)||!(w>0))return toast(t('fill'));
+CR.unshift({id:'u'+Date.now(),n:U.name||'—',r:0,k:0,car:g('m'),t:w,body:g('bd'),city:g('ct2'),phone:p,tg:(U.tg||'').replace(/\W/g,''),photo:U.photo||'',ts:Date.now(),by:U.id});
+if(!LS.s('CR',CR)){CR.shift();return}U.phone=U.phone||p;LS.s('U',U);closeS();Object.assign(S,{view:'home',tab:'cars',q:'',body:''});render();toast(t('ok'))}
+const help=()=>openS(`<h2>${t('help')}</h2><div class="btns" style="grid-template-columns:1fr"><a class="btn" href="${esc(CFG.tg)}" target="_blank" rel="noopener">Telegram</a><a class="btn o" href="https://wa.me/${CFG.wa.replace('+','')}" target="_blank" rel="noopener">WhatsApp</a><a class="btn o" href="tel:${CFG.tel}">${t('call')}</a></div>`);
+const save=()=>{LS.s('LD',LD);LS.s('CR',CR);LS.s('F',F)};
+document.addEventListener('click',ev=>{const el=ev.target.closest('[data-a]');if(!el)return;const{a,id,v:val}=el.dataset;
+const H={
+sendcode(){S.ph=g('ph');if(!okPh(S.ph))return toast(t('fill'));S.step='code';render()},
+chk(){if(g('cd')!=='1234')return toast('✗');const o=LS.g('U',null),p=ph(S.ph);U=o&&o.phone===p?o:{id:p,phone:p,name:''};LS.s('U',U);S.step=U.role?'app':'role';render()},
+role(){U.role=val;LS.s('U',U);S.step='app';render()},
+tab(){S.tab=val;S.body='';render()},body(){S.body=val;render()},mt(){S.mine=val;render()},
+v(){S.view=val;render();scrollTo(0,0)},load(){detail(id)},car(){carD(id)},
+fav(){F=F.includes(id)?F.filter(x=>x!==id):[...F,id];LS.s('F',F);render()},
+plus(){openS(`<button class="btn" data-a="addL" style="margin-bottom:10px">📦 ${t('addL')}</button><button class="btn o" data-a="addC">🚛 ${t('addC')}</button>`)},
+addL:addLoad,addC:addCar,pubL(){pubL(el)},pubC,help,
+share(){const c=LD.find(x=>x.id===id);if(!c)return;const tx=`${c.a} → ${c.b}, ${c.t} т, ${c.body}, ${money(c.price)}`,u=location.href.split('#')[0];if(navigator.share)navigator.share({title:'ЖҮК ЭКСПРЕСС',text:tx,url:u}).catch(()=>{});else navigator.clipboard?.writeText(tx+' '+u).then(()=>toast(t('copied')))},
+del(){if(!confirm(t('rm')+'?'))return;LD=LD.filter(x=>x.id!==id);CR=CR.filter(x=>x.id!==id);F=F.filter(x=>x!==id);save();render()},
+notif(){ST.notif=!ST.notif;LS.s('st',ST);render()},
+out(){U=null;localStorage.removeItem('jx.U');Object.assign(S,{step:'phone',view:'home'});render()},
+delacc(){if(confirm(t('sure'))){Object.keys(localStorage).filter(k=>k.startsWith('jx.')).forEach(k=>localStorage.removeItem(k));location.reload()}}};
+H[a]?.()});
+document.addEventListener('change',ev=>{const T=ev.target,i=T.id,v=T.value;
+if(i==='lg'){ST.lang=v;LS.s('st',ST);render()}
+else if(i==='cu'||i==='th'){ST[i==='cu'?'cur':'theme']=v;LS.s('st',ST);render()}
+else if(i==='rl'){U.role=v;LS.s('U',U);toast(t('ok'))}
+else if(i==='nm'){U.name=v.trim();LS.s('U',U)}
+else if(i==='pic'&&T.files[0]){const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');c.width=c.height=160;const s=Math.min(im.width,im.height);c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,160,160);U.photo=c.toDataURL('image/jpeg',.8);LS.s('U',U);render()};im.src=r.result};r.readAsDataURL(T.files[0])}
+else if(i==='so'){S.sort=v;$('#list').innerHTML=listH(flt())}
+else if(i==='a'||i==='b'){const a=g('a'),b=g('b'),o=$('#kmv');if(a&&b){o.textContent=t('calc');Promise.all([geo(a),geo(b)]).then(async([A,B])=>{o.textContent=A&&B?t('route')+': '+(await route(A,B)).km+' км':t('nocity')})}}});
+document.addEventListener('input',ev=>{if(ev.target.id==='q'){S.q=ev.target.value;const a=flt();$('#list').innerHTML=listH(a);$('#cnt').textContent=a.length}});
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeS();if(ev.key==='Enter'&&ev.target.matches('.card'))ev.target.click()});
+render();
+</script></body></html>
